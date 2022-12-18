@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(119, 110, 110)
 }
 
 .board {
@@ -26,10 +27,30 @@
   align-items: center;
 }
 
+.ceil img {
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+
 .black {
   background-color: rgba(0, 0, 0, 0.842);
 }
 
 .white {
-  background-color: aliceblue;
+  background-color: rgb(223, 220, 159);
+}
+
+.selected {
+  background: #40f558e1;
+  box-shadow: 0px 4px 35px -5px #40f558e1;  /* #4082f5 */
+  cursor: pointer;
+}
+
+.available {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: #4082f5;
+  color: #f54040e7;
 }
