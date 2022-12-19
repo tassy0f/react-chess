@@ -3,13 +3,13 @@
   padding: 0;
 }
 
-.App {
+.app {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(119, 110, 110)
+  background-color: rgb(101, 66, 66)
 }
 
 .board {
@@ -19,7 +19,7 @@
   flex-wrap: wrap;
 }
 
-.ceil {
+.cell {
   width: 64px;
   height: 64px;
   display: flex;
@@ -27,7 +27,7 @@
   align-items: center;
 }
 
-.ceil img {
+.cell img {
   width: 48px;
   height: 48px;
   position: relative;
@@ -53,4 +53,11 @@
   border-radius: 50%;
   background-color: #4082f5;
   color: #f54040e7;
+}
+
+.lost {
+  height: calc(50vh - 60px);
+  padding: 30px;
+  margin-left: 50px;
+  background-color: lightgray;
 }

@@ -1,55 +1,65 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Board } from '../models/Board';
-import { Ceil } from '../models/Ceil';
-import CeilComponent from './CeilComponent';
+import React, {FC, useEffect, useState} from "react";
+import {Board} from "../models/Board";
+import CellComponent from "./CellComponent";
+import {Cell} from "../models/Cell";
+import {Player} from "../models/Player";
 
 interface BoardProps {
-    board: Board;
-    setBoard: (board: Board) => void;
+  board: Board;
+  setBoard: (board: Board) => void;
+  currentPlayer: Player | null;
+  swapPlayer: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({board, setBoard}) => {  // declire functional component and destruturization of interfeses props on line 4
-    const [selectedCeil, setSelectedCeil] = useState<Ceil | null>(null);
+const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}) => {
+  const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
-    useEffect(() => {
-        highlightCeilAtack()
-    }, [selectedCeil])
-
-    function clickOnFigure(ceil: Ceil) {
-        if (selectedCeil && selectedCeil !== ceil && selectedCeil.figure?.canMove(ceil)){
-            selectedCeil.moveFigure(ceil);
-            setSelectedCeil(null);
-        } else {
-            setSelectedCeil(ceil);
-        }
+  function click(cell: Cell) {
+    if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
+      selectedCell.moveFigure(cell);
+      swapPlayer()
+      setSelectedCell(null);
+      updateBoard()
+    } else {
+      if (cell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(cell);
+      }
     }
+  }
 
-    function highlightCeilAtack() {
-        board.highlightCeilAtack(selectedCeil);
-        updateBoard();
-    }
+  useEffect(() => {
+    highlightCells()
+  }, [selectedCell])
 
-    function updateBoard() {
-        const newBoard = board.getCopyBoard();
-        setBoard(newBoard);
-    }
+  function highlightCells() {
+    board.highlightCells(selectedCell)
+    updateBoard()
+  }
 
-    return (
-        <div className='board'>
-            {board.ceils.map((row, index) => 
-                <React.Fragment key={index}>
-                    {row.map(ceil => 
-                        <CeilComponent
-                            click = {clickOnFigure}
-                            ceil = {ceil}
-                            key = {ceil.id}
-                            selected = {ceil.x === selectedCeil?.x && ceil.y === selectedCeil?.y}
-                        />
-                    )}
-                </React.Fragment>
+  function updateBoard() {
+    const newBoard = board.getCopyBoard()
+    setBoard(newBoard)
+  }
+
+  return (
+    <div>
+      <h3>Текущий игрок {currentPlayer?.color}</h3>
+      <div className="board">
+        {board.cells.map((row, index) =>
+          <React.Fragment key={index}>
+            {row.map(cell =>
+              <CellComponent
+                click={click}
+                cell={cell}
+                key={cell.id}
+                selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
+              />
             )}
-        </div>
-    )
-}
+          </React.Fragment>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default BoardComponent;

@@ -1,41 +1,41 @@
-import { Colors } from "../Colors";
-import logo from '../../assets/black-bishop.png'
-import { Ceil } from "../Ceil";
+import logo from '../../assets/black-king.png'
+import {Colors} from "../Colors";
+import {Cell} from "../Cell";
 
 export enum FigureNames {
-    BASE = 'BASE',
-    KING = 'KING',
-    KNIGHT = 'KNIGHT',
-    PAWN = 'PAWN',
-    QUEEN = 'QUEEN',
-    ROOK = 'ROOK',
-    BISHOP = 'BISHOP',
-
+  FIGURE = "Фигура",
+  KING = "Король",
+  KNIGHT = "Конь",
+  PAWN = "Пешка",
+  QUEEN = "Ферзь",
+  ROOK = "Ладья",
+  BISHOP = "Слон",
 }
 
 export class Figure {
-    color: Colors;
-    logo: typeof logo | null;
-    ceil: Ceil;
-    name: FigureNames;
-    id: number;
+  color: Colors;
+  logo: typeof logo | null;
+  cell: Cell;
+  name: FigureNames;
+  id: number;
 
-    constructor(color: Colors, ceil: Ceil) {
-        this.color = color;
-        this.ceil = ceil;
-        this.ceil.figure = this;
-        this.logo = null;
-        this.name = FigureNames.BASE;
-        this.id = Math.random();
-    }
 
-    canMove(target: Ceil) : boolean {
-        if(target.figure?.color === this.color) {return false}  
-        if (target.figure?.name === FigureNames.KING) {return false}
-        return true;
-    }
+  constructor(color: Colors, cell: Cell) {
+    this.color = color;
+    this.cell = cell;
+    this.cell.figure = this;
+    this.logo = null;
+    this.name = FigureNames.FIGURE
+    this.id = Math.random()
+  }
 
-    moveFigure(target: Ceil) : boolean {
-        return true;
-    }
+  canMove(target: Cell) : boolean {
+    if(target.figure?.color === this.color)
+      return false
+    if(target.figure?.name === FigureNames.KING)
+      return false
+    return true;
+  }
+
+  moveFigure(target: Cell) {}
 }

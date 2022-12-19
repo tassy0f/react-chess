@@ -1,19 +1,22 @@
-import { Figure, FigureNames } from "./Figure";
-import blackLogo from "../../assets/black-knight.png"
-import whiteLogo from "../../assets/white-knight.png"
-import { Ceil } from "../Ceil";
-import { Colors } from "../Colors";
+import {Figure, FigureNames} from "./Figure";
+import {Colors} from "../Colors";
+import {Cell} from "../Cell";
+import blackLogo from "../../assets/black-knight.png";
+import whiteLogo from "../../assets/white-knight.png";
 
 export class Knight extends Figure {
-    
-    constructor(color: Colors, ceil: Ceil) {
-        super(color, ceil);
-        this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
-        this.name = FigureNames.KNIGHT;
-    }
+  constructor(color: Colors, cell: Cell) {
+    super(color, cell);
+    this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
+    this.name = FigureNames.KNIGHT;
+  }
 
-    canMove(target: Ceil) : boolean {
-        if(!super.canMove(target)) {return false;}
-        return true;
-    }
+  canMove(target: Cell): boolean {
+    if(!super.canMove(target))
+      return false;
+    const dx = Math.abs(this.cell.x - target.x);
+    const dy = Math.abs(this.cell.y - target.y);
+
+    return (dx === 1 && dy === 2) || (dx === 2 && dy === 1)
+  }
 }
